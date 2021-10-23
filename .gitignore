@@ -1,0 +1,12 @@
+__pycache__
+.cache
+*.pyc
+htmlcov
+output
+venv
+.pylintrc
+
+# IDEs and text editors
+.idea
+.vscode
+*.code-workspace
