@@ -13,21 +13,21 @@ FLIGHTS_OFFERS_API_URL = "https://test.api.amadeus.com/v2/shopping/flight-offers
 token_entry = {
     "token_info": {
 
-        "access_token": os.getenv("ACCESS_TOKEN"),
+        "access_token": os.getenv("AMADEUS_ACCESS_TOKEN"),
         "expires_in": 1799,
         "state": "approved",
         "scope": "",
     },
-    "issued_timestamp": os.getenv("TOKEN_ISSUED_DATE")
+    "issued_timestamp": os.getenv("AMADEUS_TOKEN_ISSUED_DATE")
 
 }
 
 
 def is_token_expired() -> bool:
     log.info(token_entry)
-    issued_date = os.getenv("TOKEN_ISSUED_DATE", None)
-    access_token = os.getenv("ACCESS_TOKEN", None)
-    token_expires_in = int(os.getenv("TOKEN_EXPIRES_IN", 1799))
+    issued_date = os.getenv("AMADEUS_TOKEN_ISSUED_DATE", None)
+    access_token = os.getenv("AMADEUS_ACCESS_TOKEN", None)
+    token_expires_in = int(os.getenv("AMADEUS_TOKEN_EXPIRES_IN", 1799))
     if access_token and issued_date:
         date_from_token = datetime.strptime(issued_date, '%Y-%m-%d %H:%M:%S.%f')
         log.info(f"Date from token {date_from_token}")
@@ -45,8 +45,8 @@ def get_token() -> str:
         log.info("Token is expired, generating a new one")
         payload = {
             "grant_type": "client_credentials",
-            "client_id": os.getenv("CLIENT_ID"),
-            "client_secret": os.getenv("CLIENT_SECRET")
+            "client_id": os.getenv("AMADEUS_CLIENT_ID"),
+            "client_secret": os.getenv("AMADEUS_CLIENT_SECRET")
         }
 
         result = requests.post(TOKEN_API_URL, data=payload)
@@ -56,9 +56,9 @@ def get_token() -> str:
 
         # TODO: Store token from result into DynamoDB? Secret? somewhere...
         # new_token_entry = {"token_info": res, "issued_timestamp": issued_timestamp}
-        os.environ["ACCESS_TOKEN"] = res["access_token"]
-        os.environ["TOKEN_ISSUED_DATE"] = str(issued_timestamp)
-        log.info(os.getenv("TOKEN_ISSUED_DATE"))
+        os.environ["AMADEUS_ACCESS_TOKEN"] = res["access_token"]
+        os.environ["AMADEUS_TOKEN_ISSUED_DATE"] = str(issued_timestamp)
+        log.info(os.getenv("AMADEUS_TOKEN_ISSUED_DATE"))
         # token_entry["issued_timestamp"] = issued_timestamp
 
         if res["access_token"]:
@@ -66,7 +66,7 @@ def get_token() -> str:
     else:
         # use the existing token
         log.info("Token is still valid, reusing")
-        return os.getenv("ACCESS_TOKEN")
+        return os.getenv("AMADEUS_ACCESS_TOKEN")
 
 
 def get_travelers(adults, children):

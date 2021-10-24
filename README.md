@@ -1,3 +1,4 @@
+# Flight Finder
 
 ## Features
 
@@ -12,6 +13,7 @@ Clone the repo into your workspace.
 ```
 
 Upon successful image build, you can do a POST call to:
+
 ```sh
 http://localhost:9000/2015-03-31/functions/function/invocations
 BODY:
@@ -25,6 +27,7 @@ BODY:
 ```
 
 ## Deployment to AWS
+
 For deploying changes from your local...
 
 ```sh
