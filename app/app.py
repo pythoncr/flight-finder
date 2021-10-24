@@ -2,7 +2,6 @@ import logging
 from time import perf_counter
 
 import amadeus_api as api
-import boto3
 import utils
 
 logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s - %(message)s')
@@ -22,8 +21,6 @@ def handle_response(status_code, body, start_time, context):
 
 
 def handler(event, context):
-    client = boto3.client('ssm')
-    client.get_parameter(Name="AMADEUS_CLIENT_ID")
     start_time = perf_counter()
     # TODO: figure it out how EventBridge sends this value
     records = event["payload"]
