@@ -16,6 +16,7 @@ CONFIG = {
 
 def send_message(message):
     log.info(f"message to send: {message}")
+    log.info(f"config: {CONFIG}")
     client = TelegramClient("flight-finder", CONFIG["TELEGRAM_API_IP"], CONFIG["TELEGRAM_API_HASH"])
     client.start(bot_token=CONFIG["TELEGRAM_BOT_TOKEN"])
     m = client.send_message(CONFIG["TELEGRAM_CHANNEL_ID"], message)
