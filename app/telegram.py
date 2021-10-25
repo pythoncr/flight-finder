@@ -1,10 +1,10 @@
 import logging
 from telethon.sync import TelegramClient
 
+import utils
+
 logging.basicConfig(format="%(asctime)s %(levelname)s %(name)s - %(message)s")
 log = utils.config_logger(__name__, logging.DEBUG)
-
-import utils
 
 CONFIG = {
     "TELEGRAM_API_HASH": utils.get_parameter("TELEGRAM_API_HASH"),
