@@ -1,6 +1,10 @@
+import logging
 from telethon.sync import TelegramClient
 
 import utils
+
+logging.basicConfig(format="%(asctime)s %(levelname)s %(name)s - %(message)s")
+log = utils.config_logger(__name__, logging.DEBUG)
 
 CONFIG = {
     "TELEGRAM_API_HASH": utils.get_parameter("TELEGRAM_API_HASH"),
@@ -11,6 +15,8 @@ CONFIG = {
 
 
 def send_message(message):
+    log.info(f"message to send: {message}")
     client = TelegramClient("flight-finder", CONFIG["TELEGRAM_API_IP"], CONFIG["TELEGRAM_API_HASH"])
     client.start(bot_token=CONFIG["TELEGRAM_BOT_TOKEN"])
-    client.send_message(CONFIG["TELEGRAM_CHANNEL_ID"], message)
+    m = client.send_message(CONFIG["TELEGRAM_CHANNEL_ID"], message)
+    log.info(f"all good? {m}")
