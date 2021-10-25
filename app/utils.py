@@ -1,5 +1,7 @@
 import logging
 
+import boto3
+
 
 def config_logger(
     name="",
@@ -16,3 +18,8 @@ def config_logger(
     _logger.setLevel(level)
     _logger.propagate = propagate
     return _logger
+
+
+def get_parameter(k):
+    client = boto3.client("ssm")
+    return client.get_parameter(Name=k, WithDecryption=True)["Parameter"]["Value"]

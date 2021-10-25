@@ -1,14 +1,16 @@
-from telethon.sync import TelegramClient, events
+from telethon.sync import TelegramClient
 
-api_id = "2343814"
-api_hash = " bddb188b93d630690c6f7b0cebe104d5 "
+import utils
 
-with TelegramClient('name', api_id, api_hash) as client:
-   client.send_message('me', 'Hello, myself!')
-   print(client.download_profile_photo('me'))
+CONFIG = {
+    "TELEGRAM_API_HASH": utils.get_parameter("TELEGRAM_API_HASH"),
+    "TELEGRAM_API_IP": utils.get_parameter("TELEGRAM_API_IP"),
+    "TELEGRAM_BOT_TOKEN": utils.get_parameter("TELEGRAM_BOT_TOKEN"),
+    "TELEGRAM_CHANNEL_ID": utils.get_parameter("TELEGRAM_CHANNEL_ID"),
+}
 
-   @client.on(events.NewMessage(pattern='(?i).*Hello'))
-   async def handler(event):
-      await event.reply('Hey!')
 
-   client.run_until_disconnected()
+def send_message(message):
+    client = TelegramClient("flight-finder", CONFIG["TELEGRAM_API_IP"], CONFIG["TELEGRAM_API_HASH"])
+    client.start(bot_token=CONFIG["TELEGRAM_BOT_TOKEN"])
+    client.send_message(CONFIG["TELEGRAM_CHANNEL_ID"], message)

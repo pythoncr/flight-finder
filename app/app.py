@@ -2,6 +2,7 @@ import logging
 from time import perf_counter
 
 import amadeus
+import telegram
 import utils
 
 logging.basicConfig(format="%(asctime)s %(levelname)s %(name)s - %(message)s")
@@ -49,6 +50,7 @@ def handler(event, context):
                 # "EntriesCreated": len(result),
                 "FlightEntries": res,
             }
+            telegram.send_message(body_result)
             return handle_response(200, body_result, start_time, context)
 
     except Exception as error:

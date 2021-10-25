@@ -1,7 +1,6 @@
 import logging
 from datetime import datetime, timedelta
 
-import boto3
 import requests
 
 import utils
@@ -11,14 +10,12 @@ log = utils.config_logger(__name__, logging.DEBUG)
 TOKEN_API_URL = "https://test.api.amadeus.com/v1/security/oauth2/token"
 FLIGHTS_OFFERS_API_URL = "https://test.api.amadeus.com/v2/shopping/flight-offers"
 
-client = boto3.client("ssm")
-get_parameter = lambda k: client.get_parameter(Name=k, WithDecryption=True)["Parameter"]["Value"]
 CONFIG = {
-    "AMADEUS_ACCESS_TOKEN": get_parameter("AMADEUS_ACCESS_TOKEN"),
-    "AMADEUS_CLIENT_ID": get_parameter("AMADEUS_CLIENT_ID"),
-    "AMADEUS_CLIENT_SECRET": get_parameter("AMADEUS_CLIENT_SECRET"),
-    "AMADEUS_TOKEN_EXPIRES_IN": get_parameter("AMADEUS_TOKEN_EXPIRES_IN"),
-    "AMADEUS_TOKEN_ISSUED_DATE": get_parameter("AMADEUS_TOKEN_ISSUED_DATE"),
+    "AMADEUS_ACCESS_TOKEN": utils.get_parameter("AMADEUS_ACCESS_TOKEN"),
+    "AMADEUS_CLIENT_ID": utils.get_parameter("AMADEUS_CLIENT_ID"),
+    "AMADEUS_CLIENT_SECRET": utils.get_parameter("AMADEUS_CLIENT_SECRET"),
+    "AMADEUS_TOKEN_EXPIRES_IN": utils.get_parameter("AMADEUS_TOKEN_EXPIRES_IN"),
+    "AMADEUS_TOKEN_ISSUED_DATE": utils.get_parameter("AMADEUS_TOKEN_ISSUED_DATE"),
 }
 
 
