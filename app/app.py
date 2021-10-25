@@ -35,25 +35,22 @@ def handler(event, context):
         currency="USD",
         qty_offers=1,
     )
-    try:
-        result = None
 
-        if res:
-            # # Check if there is any error
-            # for res in result:
-            #     if "error" in res:
-            #         body_result = {
-            #             "error": res["error"]
-            #         }
-            #         return handle_response(400, body_result, start_time, context)
-            body_result = {
-                "WasCompleted": True,
-                # "EntriesCreated": len(result),
-                "FlightEntries": res,
-            }
-            telegram.send_message(json.dumps(res))
-            return handle_response(200, body_result, start_time, context)
-
-    except Exception as error:
-        body_result = {"error": error}
+    if res:
+        # # Check if there is any error
+        # for res in result:
+        #     if "error" in res:
+        #         body_result = {
+        #             "error": res["error"]
+        #         }
+        #         return handle_response(400, body_result, start_time, context)
+        body_result = {
+            "WasCompleted": True,
+            # "EntriesCreated": len(result),
+            "FlightEntries": res,
+        }
+        telegram.send_message(json.dumps(res))
+        return handle_response(200, body_result, start_time, context)
+    else:
+        body_result = {"error": "no results"}
         handle_response(400, body_result, start_time, context)
