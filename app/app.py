@@ -33,9 +33,8 @@ def handler(event, context):
         departure_date="2021-11-01",
         arrival_date="2021-11-15",
         currency="USD",
-        qty_offers=10,
+        qty_offers=1,
     )
-    log.info(f"res: {res}")
     try:
         result = None
 
@@ -52,6 +51,7 @@ def handler(event, context):
                 # "EntriesCreated": len(result),
                 "FlightEntries": res,
             }
+            log.info(f"sending data to telegram")
             telegram.send_message(json.dumps(res))
             return handle_response(200, body_result, start_time, context)
 
