@@ -11,7 +11,7 @@ CONFIG = {
     "TELEGRAM_API_HASH": utils.get_parameter("TELEGRAM_API_HASH"),
     "TELEGRAM_API_ID": utils.get_parameter("TELEGRAM_API_ID"),
     "TELEGRAM_BOT_TOKEN": utils.get_parameter("TELEGRAM_BOT_TOKEN"),
-    "TELEGRAM_CHANNEL_ID": utils.get_parameter("TELEGRAM_CHANNEL_ID"),
+    "TELEGRAM_CHANNEL_ID": int(utils.get_parameter("TELEGRAM_CHANNEL_ID")),
 }
 
 
