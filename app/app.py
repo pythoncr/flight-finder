@@ -35,6 +35,7 @@ def handler(event, context):
         currency="USD",
         qty_offers=10,
     )
+    log.info(f"res: {res}")
     try:
         result = None
 
