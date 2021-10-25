@@ -51,7 +51,6 @@ def handler(event, context):
                 # "EntriesCreated": len(result),
                 "FlightEntries": res,
             }
-            log.info(f"sending data to telegram")
             telegram.send_message(json.dumps(res))
             return handle_response(200, body_result, start_time, context)
 
