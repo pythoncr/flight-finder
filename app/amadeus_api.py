@@ -11,8 +11,8 @@ log = utils.config_logger(__name__, logging.DEBUG)
 TOKEN_API_URL = "https://test.api.amadeus.com/v1/security/oauth2/token"
 FLIGHTS_OFFERS_API_URL = "https://test.api.amadeus.com/v2/shopping/flight-offers"
 
-client = boto3.client('ssm')
-get_parameter = lambda k: client.get_parameter(Name=k["Parameter"]["Value"])
+client = boto3.client("ssm")
+get_parameter = lambda k: client.get_parameter(Name=k)["Parameter"]["Value"]
 CONFIG = {
     "AMADEUS_ACCESS_TOKEN": get_parameter("AMADEUS_ACCESS_TOKEN"),
     "AMADEUS_CLIENT_ID": get_parameter("AMADEUS_CLIENT_ID"),
