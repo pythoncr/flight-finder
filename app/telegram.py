@@ -1,5 +1,6 @@
 import logging
 from telethon.sync import TelegramClient
+from telethon.sessions.memory import MemorySession
 
 import utils
 
@@ -15,8 +16,9 @@ CONFIG = {
 
 
 def send_message(message):
+    session = MemorySession()
     log.info(f"sending: {message}")
-    client = TelegramClient("flight-finder", CONFIG["TELEGRAM_API_ID"], CONFIG["TELEGRAM_API_HASH"])
+    client = TelegramClient(session, CONFIG["TELEGRAM_API_ID"], CONFIG["TELEGRAM_API_HASH"])
     log.info("client created")
     client.start(bot_token=CONFIG["TELEGRAM_BOT_TOKEN"])
     log.info("client started")
