@@ -12,7 +12,7 @@ TOKEN_API_URL = "https://test.api.amadeus.com/v1/security/oauth2/token"
 FLIGHTS_OFFERS_API_URL = "https://test.api.amadeus.com/v2/shopping/flight-offers"
 
 client = boto3.client("ssm")
-get_parameter = lambda k: client.get_parameter(Name=k)["Parameter"]["Value"]
+get_parameter = lambda k: client.get_parameter(Name=k, WithDecryption=True)["Parameter"]["Value"]
 CONFIG = {
     "AMADEUS_ACCESS_TOKEN": get_parameter("AMADEUS_ACCESS_TOKEN"),
     "AMADEUS_CLIENT_ID": get_parameter("AMADEUS_CLIENT_ID"),
