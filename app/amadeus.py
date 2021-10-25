@@ -117,6 +117,7 @@ def get_offers(origin, destination, adults, children, departure_date, arrival_da
     headers = {"Authorization": "Bearer " + auth_token}
     response = requests.post(FLIGHTS_OFFERS_API_URL, json=payload, headers=headers)
     result = parse_response(response.json())
+    log.info(f"offers: {result}")
     return result
 
 
