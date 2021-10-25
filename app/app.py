@@ -1,12 +1,11 @@
 import logging
 from time import perf_counter
 
-import amadeus_api as api
+import amadeus
 import utils
 
-logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s - %(message)s')
+logging.basicConfig(format="%(asctime)s %(levelname)s %(name)s - %(message)s")
 log = utils.config_logger(__name__, logging.DEBUG)
-
 
 
 def handle_response(status_code, body, start_time, context):
@@ -15,7 +14,7 @@ def handle_response(status_code, body, start_time, context):
         "StatusCode": status_code,
         "Body": body,
         "ElapsedMilliseconds": passed_time,
-        "AWSRequestId": context.aws_request_id
+        "AWSRequestId": context.aws_request_id,
     }
     return raw_response
 
@@ -24,8 +23,16 @@ def handler(event, context):
     start_time = perf_counter()
     # TODO: figure it out how EventBridge sends this value
     records = event["payload"]
-    res = api.get_offers(origin="SJO", destination="MIA", adults=2, children=0, departure_date="2021-11-01",
-               arrival_date="2021-11-15", currency="USD", qty_offers=10)
+    res = amadeus.get_offers(
+        origin="SJO",
+        destination="MIA",
+        adults=2,
+        children=0,
+        departure_date="2021-11-01",
+        arrival_date="2021-11-15",
+        currency="USD",
+        qty_offers=10,
+    )
     try:
         result = None
 
@@ -40,12 +47,10 @@ def handler(event, context):
             body_result = {
                 "WasCompleted": True,
                 # "EntriesCreated": len(result),
-                "FlightEntries": res
+                "FlightEntries": res,
             }
             return handle_response(200, body_result, start_time, context)
 
     except Exception as error:
-        body_result = {
-            "error": error
-        }
+        body_result = {"error": error}
         handle_response(400, body_result, start_time, context)

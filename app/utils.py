@@ -1,5 +1,6 @@
 import logging
 
+
 def config_logger(
     name="",
     level=logging.INFO,
@@ -7,7 +8,7 @@ def config_logger(
     handler=logging.StreamHandler,
     propagate=False,
 ):
-    """ configures a logger """
+    """configures a logger"""
     _handler = handler()
     _handler.setFormatter(logging.Formatter(_format))
     _logger = logging.getLogger(name)
