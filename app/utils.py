@@ -5,7 +5,7 @@ def config_logger(
     level=logging.INFO,
     _format="%(levelname)s - [%(asctime)s] - %(filename)s:%(lineno)d: %(message)s",
     handler=logging.StreamHandler,
-    propagate=True,
+    propagate=False,
 ):
     """ configures a logger """
     _handler = handler()

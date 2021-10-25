@@ -62,6 +62,7 @@ def get_token() -> str:
             "client_secret": CONFIG["AMADEUS_CLIENT_SECRET"]
         }
 
+        log.info(f"Send to API: {payload}")
         result = requests.post(TOKEN_API_URL, data=payload)
         issued_timestamp = datetime.now()
         res = result.json()
