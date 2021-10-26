@@ -2,7 +2,7 @@ name: App
 
 on:
   push:
-    branches: [xx-ssm-access]
+    branches: [main]
 
 jobs:
   build:
