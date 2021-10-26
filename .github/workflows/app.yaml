@@ -1,0 +1,30 @@
+name: App
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Build and push to ECR
+        run: |
+          docker build -t flight-finder:${GITHUB_SHA} .
+          docker tag flight-finder:${GITHUB_SHA} 504002625576.dkr.ecr.us-east-1.amazonaws.com/flight-finder:${GITHUB_SHA}
+          aws ecr get-login-password | docker login --username AWS --password-stdin 504002625576.dkr.ecr.us-east-1.amazonaws.com/flight-finder
+          docker push 504002625576.dkr.ecr.us-east-1.amazonaws.com/flight-finder:${GITHUB_SHA}
+          
+      - name: Update Lambda
+        run: |
+          aws lambda update-function-code --function-name flight-finder --image-uri 504002625576.dkr.ecr.us-east-1.amazonaws.com/flight-finder:${GITHUB_SHA} --publish

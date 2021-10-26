@@ -1,2 +1,0 @@
-image_name=flight_finder_logger_python
-image_name_test=flight_finder_logger_python_test
