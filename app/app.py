@@ -25,13 +25,19 @@ def handler(event, context):
     start_time = perf_counter()
     # TODO: figure it out how EventBridge sends this value
     records = event["payload"]
+    origin = "SJO"
+    destination = "MIA"
+    adults = 2
+    children = 0
+    departure_date = "2021-11-01"
+    arrival_date = "2021-11-15"
     res = amadeus.get_offers(
-        origin="SJO",
-        destination="MIA",
-        adults=2,
-        children=0,
-        departure_date="2021-11-01",
-        arrival_date="2021-11-15",
+        origin=origin,
+        destination=destination,
+        adults=adults,
+        children=children,
+        departure_date=departure_date,
+        arrival_date=arrival_date,
         currency="USD",
         qty_offers=1,
     )
@@ -49,7 +55,7 @@ def handler(event, context):
             # "EntriesCreated": len(result),
             "FlightEntries": res,
         }
-        telegram.send_message(json.dumps(res))
+        telegram.send_message(json.dumps(res), origin, destination, adults, children, departure_date, arrival_date)
         return handle_response(200, body_result, start_time, context)
     else:
         body_result = {"error": "no results"}
