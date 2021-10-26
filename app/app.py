@@ -1,4 +1,3 @@
-import json
 import logging
 from time import perf_counter
 
@@ -55,7 +54,7 @@ def handler(event, context):
             # "EntriesCreated": len(result),
             "FlightEntries": res,
         }
-        telegram.send_message(json.dumps(res), origin, destination, adults, children, departure_date, arrival_date)
+        telegram.send_message(res, origin, destination, adults, children, departure_date, arrival_date)
         return handle_response(200, body_result, start_time, context)
     else:
         body_result = {"error": "no results"}
