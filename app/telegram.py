@@ -15,12 +15,16 @@ CONFIG = {
 }
 
 
-def send_message(message):
+def send_message(data, origin, destination, adults, children, departure_date, arrival_date):
+    message = f"- Ofertas de ${origin} a ${destination} para ${adults} adultos y ${children} niños del ${departure_date} al ${arrival_date} con la ruta:"
+    for offer in data["offers"]:
+        for path in offer["itinerary"]["routes"][0]["path"]:
+            message += f"\n${path['departure']} ${path['timeStampDeparture']} >>> ${path['arrival']} ${path['timeStampArrival']} (duración total: ${offer['itinerary']['routes'][0]['fullDuration']}) (operado por ${path['airline']})"
+        for path in offer["itinerary"]["routes"][1]["path"]:
+            message += f"\n${path['departure']} ${path['timeStampDeparture']} <<< ${path['arrival']} ${path['timeStampArrival']} (duración total: ${offer['itinerary']['routes'][0]['fullDuration']}) (operado por ${path['airline']})"
+        message += f"\nTiene un precio de ${offer['price']}"
+
     session = MemorySession()
-    log.info(f"sending: {message}")
     client = TelegramClient(session, CONFIG["TELEGRAM_API_ID"], CONFIG["TELEGRAM_API_HASH"])
-    log.info("client created")
     client.start(bot_token=CONFIG["TELEGRAM_BOT_TOKEN"])
-    log.info("client started")
-    m = client.send_message(CONFIG["TELEGRAM_CHANNEL_ID"], message)
-    log.info(f"telegram message: {m}")
+    client.send_message(CONFIG["TELEGRAM_CHANNEL_ID"], message)
