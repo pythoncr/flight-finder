@@ -16,13 +16,14 @@ CONFIG = {
 
 
 def send_message(data, origin, destination, adults, children, departure_date, arrival_date):
-    message = f"- Ofertas de ${origin} a ${destination} para ${adults} adultos y ${children} niños del ${departure_date} al ${arrival_date} con la ruta:"
+    message = f"\n-\xE2\x9C\x88 Ofertas de {origin} a {destination} para {adults} adultos y {children} niños del {departure_date} al {arrival_date} con la ruta:\n"
     for offer in data["offers"]:
         for path in offer["itinerary"]["routes"][0]["path"]:
-            message += f"\n${path['departure']} ${path['timeStampDeparture']} >>> ${path['arrival']} ${path['timeStampArrival']} (duración total: ${offer['itinerary']['routes'][0]['fullDuration']}) (operado por ${path['airline']})"
+            message += f"\n• {path['departure']} {path['timeStampDeparture']} >>> {path['arrival']} {path['timeStampArrival']} (duración total: {offer['itinerary']['routes'][0]['fullDuration']}) (operado por {path['airline']})"
+        message += "\n"
         for path in offer["itinerary"]["routes"][1]["path"]:
-            message += f"\n${path['departure']} ${path['timeStampDeparture']} <<< ${path['arrival']} ${path['timeStampArrival']} (duración total: ${offer['itinerary']['routes'][0]['fullDuration']}) (operado por ${path['airline']})"
-        message += f"\nTiene un precio de ${offer['price']}"
+            message += f"\n• {path['departure']} {path['timeStampDeparture']} <<< {path['arrival']} {path['timeStampArrival']} (duración total: {offer['itinerary']['routes'][0]['fullDuration']}) (operado por {path['airline']})"
+        message += f"\nTiene un precio de {offer['price']}"
 
     session = MemorySession()
     client = TelegramClient(session, CONFIG["TELEGRAM_API_ID"], CONFIG["TELEGRAM_API_HASH"])
