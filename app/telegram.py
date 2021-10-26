@@ -16,7 +16,7 @@ CONFIG = {
 
 
 def send_message(data, origin, destination, adults, children, departure_date, arrival_date):
-    message = f"\n- \U0002708 Ofertas de {origin} a {destination} para {adults} adultos y {children} niños del {departure_date} al {arrival_date} con la ruta:\n"
+    message = f"\n- Ofertas de {origin} a {destination} para {adults} adultos y {children} niños del {departure_date} al {arrival_date} con la ruta:\n"
     for offer in data["offers"]:
         for path in offer["itinerary"]["routes"][0]["path"]:
             message += f"\n• {path['departure']} {path['timeStampDeparture']} >>> {path['arrival']} {path['timeStampArrival']} (duración total: {offer['itinerary']['routes'][0]['fullDuration']}) (operado por {path['airline']})"
