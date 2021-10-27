@@ -23,7 +23,6 @@ def handle_response(status_code, body, start_time, context):
 def handler(event, context):
     start_time = perf_counter()
     # TODO: figure it out how EventBridge sends this value
-    records = event["payload"]
     origin = "SJO"
     destination = "MIA"
     adults = 2
