@@ -12,8 +12,8 @@ log = utils.config_logger(__name__, logging.DEBUG)
 def handle_response(status_code, body, start_time, context):
     passed_time = round((perf_counter() - start_time) * 1000, 2)
     raw_response = {
-        "StatusCode": status_code,
-        "Body": body,
+        "statusCode": status_code,
+        "body": body,
         "ElapsedMilliseconds": passed_time,
         "AWSRequestId": context.aws_request_id,
     }
